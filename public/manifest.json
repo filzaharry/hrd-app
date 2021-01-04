@@ -1,0 +1,37 @@
+{
+  "name": "hrd-app",
+  "short_name": "hrd-app",
+  "lang": "en",
+  "description": "Aplus-HRD PWA Web-App",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1b212f",
+  "theme_color": "#1b212f",
+  "gcm_sender_id": "613145198344",
+  "icons": [
+    {
+      "src": "./icon128-100.jpg",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon152-100.jpg",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon192-100.jpg",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon512-100.jpg",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

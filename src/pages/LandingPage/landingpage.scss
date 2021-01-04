@@ -1,0 +1,97 @@
+.landingpage {
+  background-image: url(../../assets/images/header.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  /* Color Text */
+  .navbar-brand,
+  .nav-link {
+    font-family: "montserrat";
+    cursor: pointer;
+  }
+
+  .jumbotronPage,
+  h1, h5 {
+    font-family: "Montserrat";
+  }
+
+  .header .display-4 {
+    font-size: 40px;
+  }
+
+  .jumbotronPage,
+  p {
+    font-weight: 300;
+  }
+
+  .jumbotronPage,
+  strong {
+    font-weight: 600;
+  }
+
+  .body-content,
+  .body-content p {
+    padding-top: 150px;
+    padding-bottom: 150px;
+    font-family: "montserrat";
+    color: white;
+    font-weight: 300;
+  }
+
+  .body-content h1 {
+    color: white;
+  }
+
+  .navbar-nav{
+      display: none;
+  }
+
+  /* Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {
+    /* Navbar */
+    .nav-logo img {
+      height: 30px;
+    }
+
+    .nav-link {
+      text-transform: uppercase;
+      margin-right: 30px;
+    }
+
+    .navbar-nav{
+        display: inline-flex;
+    }
+
+    /* jumbotronPage */
+    .jumbotronPage,
+    .hero-img {
+      visibility: visible;
+      display: block;
+      height: 620px;
+    }
+
+    .header {
+      margin-left: 20px;
+    }
+
+    /* body-content */
+    .body-content {
+      padding-top: 50px;
+      padding-bottom: 150px;
+    }
+    .body-content,
+    h5,
+    .body-content h1 {
+      color: #1b212f !important;
+    }
+
+    /* footer */
+    .socialmedia-footer {
+      height: 20px;
+    }
+
+    .nav-footer {
+      font-size: 18px;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.card-title{
+    color: black;
+}
+
+.card-img-top {
+    width: 200px;
+    height: 200px;
+    padding: 20px;
+}
+
+.card-custom {
+    transition: 0.3s;
+}
+
+.card-custom:hover {
+    box-shadow: 0px 10px 36px -19px rgb(58, 58, 58);
+    margin-top: -10px;
+}
+

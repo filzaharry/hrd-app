@@ -1,0 +1,14 @@
+.container {
+    .row {
+        margin-left: -15px !important;
+        margin-right: -15px !important;
+        width: 100% !important;
+        .profile-karyawan {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 16px;
+        }
+    }
+}

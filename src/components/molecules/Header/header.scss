@@ -1,0 +1,48 @@
+.nav-wrapper{
+  box-shadow: 9px 10px 17px -6px rgba(0,0,0,0.28);
+  // z-index: -1 !important;
+}
+.header {
+  .messIcon {
+    display: none;
+  }
+  .notifIcon {
+    display: none;
+  }
+  .userIcon {
+    display: none;
+  }
+
+  .nav-link img:hover {
+    cursor: pointer !important;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 720px) {
+  .header {
+    .nav-link p {
+      display: none;
+    }
+    .nav-link img {
+      display: inline;
+    }
+    .messIcon {
+      width: 2.3rem;
+      margin-right: 20px;
+      margin-top: 3px;
+    }
+    .notifIcon {
+      width: 1.5rem;
+      margin-right: 20px;
+    }
+    .userIcon {
+      width: 2rem;
+      margin-right: 20px;
+    }
+
+    .nav-link:hover {
+      cursor: pointer !important;
+    }
+  }
+}
