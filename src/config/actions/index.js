@@ -1,5 +1,6 @@
 import KaryawanAction from './karyawan'
-import DepartemenAction from './karyawan'
-import JabatanAction from './karyawan'
+import DepartemenAction from './departemen'
+import JabatanAction from './jabatan'
+import NilaiHrdAction from './nilaihrd'
 
-export {KaryawanAction, DepartemenAction, JabatanAction}
+export {KaryawanAction, DepartemenAction, JabatanAction, NilaiHrdAction}

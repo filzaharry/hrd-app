@@ -6,6 +6,7 @@ import "./profile.scss";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { Spinner } from "reactstrap";
+import moment from "moment";
 
 const ProfileKaryawan = (props) => {
   const [data, setData] = useState({});
@@ -30,14 +31,14 @@ const ProfileKaryawan = (props) => {
     return (
       <div>
         <div className="row">
-          <div className="col-sm col-lg-4">
+          <div className="col-sm col-lg-3">
             <img
               src={`http://localhost:4000/${data.image}`}
               className="img-thumbnail profile-karyawan"
               alt="img-profile"
             />
           </div>
-          <div className="col-sm col-lg-8">
+          <div className="col-sm col-lg-6">
             <h1>{data.name}</h1>
 
             <h5>
@@ -65,14 +66,14 @@ const ProfileKaryawan = (props) => {
         <div className="row">
           <About
             tempatLahir={data.tempatLahir}
-            tglLahir={data.tglLahir}
+            tglLahir={moment(data.tglLahir).format('LL')}
             gender={data.gender}
             agama={data.agama}
             alamat={data.alamat}
           />
           <Jobs
             nik={data.nik}
-            tglMulai={data.tglMulai}
+            tglMulai={moment(data.tglMulai).format('LL')}
             jabatanId={jabatan.nama_jab}
             departemenId={departemen.nama_dep}
           />
@@ -88,7 +89,7 @@ const ProfileKaryawan = (props) => {
               Portofolio
             </button>
             <button
-              className="btn btn-info mr-3 mt-2"
+              className="btn btn-info mr-3"
               onClick={() => {
                 window.location.href = `${data.cv}`;
                 return null;

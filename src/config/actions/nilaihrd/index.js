@@ -1,19 +1,19 @@
 import axios from "axios";
 import { API_URL } from "../../utils/constants";
 
-export const GET_NILAI_LIST = "GET_NILAI_LIST";
+export const GET_NILAIHRD_LIST = "GET_NILAIHRD_LIST";
 
-export const nilaiAction = (id) => {
+export const NilaiHrdAction = (id) => {
   return (dispatch) => {
     // Make a request for a user with a given ID
     axios
     // nilai masih undefined
-      .get(`${API_URL}karyawan?id=${id}`)
+      .get(`${API_URL}/periode/${id}/nilaihrd`)
       .then(function (response) {
         console.log(response);
         // handle success
         dispatch({
-          type: GET_NILAI_LIST,
+          type: GET_NILAIHRD_LIST,
           payload: {
             data: response.data,
             errorMessage: false,
@@ -24,7 +24,7 @@ export const nilaiAction = (id) => {
         console.log(error);
         // handle error
         dispatch({
-          type: GET_NILAI_LIST,
+          type: GET_NILAIHRD_LIST,
           payload: {
             data: false,
             errorMessage: false,

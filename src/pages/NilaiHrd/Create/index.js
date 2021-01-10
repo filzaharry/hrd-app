@@ -1,68 +1,82 @@
+import Axios from "axios";
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { API_URL } from "../../../config/utils/constants";
 
-const ModalEdHRD = (props) => {
+const ModalTambahNilaiHRD = (props) => {
   const { buttonLabel, className } = props;
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
-  const [periode, setPeriode] = useState("");
-  const [tglMulai, setTglMulai] = useState("");
-  const [tglSelesai, setTglSelesai] = useState("");
+
+  const [masuk, setMasuk] = useState("");
   const [izin, setIzin] = useState("");
   const [setengahHari, setSetengahHari] = useState("");
   const [sakit, setSakit] = useState("");
   const [alpa, setAlpa] = useState("");
+  const [error, setError] = useState('');
 
-  const changePeriode = (e) => {
-    console.log(e.target.value);
+  const changeMasuk = (e) => {
     const value = e.target.value;
-    setPeriode(value);
-  };
-  const changeTglMulai = (e) => {
-    console.log(e.target.value);
-    const value = e.target.value;
-    setTglMulai(value);
-  };
-  const changeTglSelesai = (e) => {
-    console.log(e.target.value);
-    const value = e.target.value;
-    setTglSelesai(value);
+    setMasuk(value);
+    setError("")
   };
   const changeIzin = (e) => {
-    console.log(e.target.value);
     const value = e.target.value;
     setIzin(value);
+    setError("")
   };
   const changeSetengahHari = (e) => {
-    console.log(e.target.value);
     const value = e.target.value;
     setSetengahHari(value);
+    setError("")
   };
   const changeSakit = (e) => {
-    console.log(e.target.value);
     const value = e.target.value;
     setSakit(value);
+    setError("")
   };
   const changeAlpa = (e) => {
-    console.log(e.target.value);
     const value = e.target.value;
     setAlpa(value);
+    setError("")
   };
-
+  // useParams ini prosesnya lama kalo udah yakin ya ga usah diotak atik lagi 
+  // nanti id nya nongol sendiri
+  // atau pancing dulu di <Modal id={const.id} />
+  const id = useParams()
   const submitNilaiHRD = () => {
     setModal(!modal);
     const data = {
-      periode: periode,
-      tglMulai: tglMulai,
-      tglSelesai: tglSelesai,
+      masuk: masuk,
       izin: izin,
       setengahHari: setengahHari,
       sakit: sakit,
       alpa: alpa,
     };
-    console.log("data", data);
+    console.log("data", id.id);
+    Axios
+    .post(`${API_URL}periode/${id.id}`, data)
+    .then((result) => {
+      if (result) {
+        if (result.data) {
+          setMasuk("")
+          setIzin("")
+          setSetengahHari("")
+          setSakit("")
+          setAlpa("")
+          window.location.reload(false);
+          // setAlert(result.data.message);
+          // setTimeout(() => {
+          //   setAlert("");
+          // }, 3000);
+        }
+      }
+    })
+    .catch((error) => {
+      setError(error.response.data.message);
+    });
   };
 
   return (
@@ -74,36 +88,14 @@ const ModalEdHRD = (props) => {
         <ModalHeader toggle={toggle}>Form Nilai HRD</ModalHeader>
         <ModalBody>
           <div className="form-group">
-            <label for="periode">Periode</label>
-            <select
-              id="periode"
-              class="form-control"
-              value={periode}
-              onChange={changePeriode}
-            >
-              <option selected>Choose...</option>
-              <option>3 Bulan ( Training )</option>
-              <option>1 Tahun ( Kontrak )</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label for="tglMulai">Mulai Kontrak</label>
+            {/* validasi maksimal number 10 */}
+            <label for="masuk">Masuk Kerja</label>
             <input
-              type="date"
+              type="number"
               class="form-control"
-              id="tglMulai"
-              value={tglMulai}
-              onChange={changeTglMulai}
-            />
-          </div>
-          <div className="form-group">
-            <label for="tglSelesai">Selesai Kontrak</label>
-            <input
-              type="date"
-              class="form-control"
-              id="tglSelesai"
-              value={tglSelesai}
-              onChange={changeTglSelesai}
+              id="masuk"
+              value={masuk}
+              onChange={changeMasuk}
             />
           </div>
           <div className="form-group">
@@ -164,4 +156,4 @@ const ModalEdHRD = (props) => {
   );
 };
 
-export default ModalEdHRD;
+export default ModalTambahNilaiHRD;

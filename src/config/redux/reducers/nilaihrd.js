@@ -1,14 +1,14 @@
-import { GET_NILAI_LIST } from '../../actions/nilai';
+import { GET_NILAIHRD_LIST } from '../../actions/nilaihrd';
 
 let initialState = {
-    getNilaiList: false,
-    errorNilaiList: false,
+    getNilaiHrdList: false,
+    errorNilaiHrdList: false,
     title: "Nilai Karyawan Kontrak",
   };
 
-const nilai = (state = initialState, action) => {
+const nilaiHrd = (state = initialState, action) => {
   switch (action.type) {
-    case GET_NILAI_LIST:
+    case GET_NILAIHRD_LIST:
       return {
         ...state,
         getNilaiList: action.payload.data,
@@ -21,4 +21,4 @@ const nilai = (state = initialState, action) => {
     
 };
 
-export default nilai
+export default nilaiHrd
