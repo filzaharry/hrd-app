@@ -32,7 +32,7 @@ const Login = () => {
       password: password,
     };
     axios
-      .post("https://aplus-hrd-api-server.herokuapp.com/v1/login", data)
+      .post("http://localhost:4000/v1/login", data)
       .then((result) => {
         if (result) {
           localStorage.setItem("token", result.data.token);
