@@ -8,7 +8,6 @@ import { API_URL } from "../../config/utils/constants";
 import { Spinner } from "reactstrap";
 import moment from 'moment'
 import ModalTambahNilaiHRD from "./Create";
-import ModalEditNilaiHRD from "./Edit";
 
 const NilaiHrd = (props) => {
   // kalo objeknya 1 pake {} kalo objeknya banyak(array) pakenya []
@@ -30,9 +29,6 @@ const NilaiHrd = (props) => {
   const hrd = data.nilaiHrdId
   // console.log(hrd);
 
-  const edit = value => {
-    console.log(value);
-  }
   
 
   return (
@@ -46,7 +42,7 @@ const NilaiHrd = (props) => {
           <Gap height={20} />
           <h2>Daftar Nilai dari Departemen HRD</h2>
           <h5 className="text-muted">
-            {data.tglMulai}
+            {moment(data.tglMulai).format('LL')}
           </h5>
           <Gap height={20} />
           <div className="btn btn-primary">
@@ -67,7 +63,7 @@ const NilaiHrd = (props) => {
             <tbody>
               {hrd && hrd.map((nilaiHrd) => (
                   <tr>
-                    <td>{moment(nilaiHrd.updatedAt).format('LL')}</td>
+                    <td>{moment(nilaiHrd.updatedAt).format("LL")}</td>
 
                     <td>{nilaiHrd.hasilAkhir}</td>
                     <td> 

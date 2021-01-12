@@ -57,16 +57,11 @@ const DetailNilaiHrd = (props) => {
     
     return (
         <Fragment>
-          <div className="row">
-            <div className="col-sm col-lg-3">
-            </div>
-            <div className="col-sm col-lg-6">
-              {/* <p className="font-italic">{data.nik}</p> */}
-                <ModEdHRD onClick={()=> history.push('/periode/tambah-periode')} />
-            </div>
-            <hr />
           <div className="container-fluid">
+            <h3>Detail Nilai Hrd</h3>
+            <h5>Menampilkan Rincian Nilai HRD selama 1 Bulan</h5>
             <Gap height={20} />
+            <div className="col">
   
             {/* <CustomTable /> */}
   

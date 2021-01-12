@@ -24,7 +24,7 @@ function Card(props) {
               <div className="card">
                 <img
                   className="card-img-top"
-                  src={`http://localhost:4000/${getDepartemenList.image}`}
+                  src={`https://aplus-hrd-api-server.herokuapp.com/${getDepartemenList.image}`}
                   alt="Card"
                 />
                 <div className="card-body">

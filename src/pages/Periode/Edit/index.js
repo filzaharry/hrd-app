@@ -1,3 +1,5 @@
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Axios from "axios";
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -60,7 +62,7 @@ const {id} = useParams();
 
   return (
     <div className="btn btn-warning mr-2">
-      <Link style={{color: "white"}} onClick={toggle}>Ubah</Link>
+      <Link style={{color: "white"}} onClick={toggle}><FontAwesomeIcon icon={faEdit}/> Ubah</Link>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Ubah Data Periode</ModalHeader>
         <ModalBody>

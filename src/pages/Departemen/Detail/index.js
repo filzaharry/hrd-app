@@ -5,12 +5,13 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
+import { API_URL } from "../../../config/utils/constants";
 
 const DetailDepartemen = (props) => {
   const [data, setData] = useState({});
   useEffect(() => {
     const id = props.match.params.id;
-    Axios.get(`http://localhost:4000/v1/hrd/departemen/${id}`)
+    Axios.get(`${API_URL}/departemen/${id}`)
       .then((res) => {
         setData(res.data.data);
       })
