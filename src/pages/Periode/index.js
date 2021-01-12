@@ -36,7 +36,7 @@ const ProfileKaryawan = (props) => {
         <div className="row">
           <div className="col-sm col-lg-3">
             <img
-              src={`http://localhost:4000/${data.image}`}
+              src={`https://aplus-hrd-api-server.herokuapp.com/${data.image}`}
               className="img-thumbnail profile-karyawan"
               alt="img-profile"
             />

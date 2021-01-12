@@ -39,7 +39,7 @@ const Register = () => {
     };
     // console.log(data);
     axios
-      .post("http://localhost:4000/v1/register", data)
+      .post("https://aplus-hrd-api-server.herokuapp.com/v1/register", data)
       .then((result) => {
         if (result) {
           if (result.data) {

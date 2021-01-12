@@ -8,6 +8,7 @@ import SelectJabatan from "./SelectJabatan";
 import Axios from "axios";
 import swal from "sweetalert";
 import addNotification from "react-push-notification";
+import { API_URL } from "../../../config/utils/constants";
 
 const CreateKaryawan = () => {
   const history = useHistory()
@@ -141,7 +142,7 @@ const CreateKaryawan = () => {
     formData.set("alamat", data.alamat);
     formData.append("image", image);
     // console.log(formData);
-    Axios.post("http://localhost:4000/v1/hrd/karyawan", formData, {
+    Axios.post(`${API_URL}karyawan`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

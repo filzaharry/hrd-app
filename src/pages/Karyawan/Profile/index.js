@@ -7,13 +7,14 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { Spinner } from "reactstrap";
 import moment from "moment";
+import { API_URL } from "../../../config/utils/constants";
 
 const ProfileKaryawan = (props) => {
   const [data, setData] = useState({});
   useEffect(() => {
     const id = props.match.params.id;
     // console.log(props);
-    Axios.get(`http://localhost:4000/v1/hrd/karyawan/${id}`)
+    Axios.get(`${API_URL}karyawan/${id}`)
       .then((res) => {
         setData(res.data.data);
       })

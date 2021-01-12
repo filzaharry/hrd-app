@@ -40,7 +40,7 @@ const ResetPassword = (props) => {
       token: props.match.params.token,
     };
     //   console.log(props.match.params.token);
-    axios.put("http://localhost:4000/v1/resetpassword", data).then((res) => {
+    axios.put("https://aplus-hrd-api-server.herokuapp.com/v1/resetpassword", data).then((res) => {
       // console.log(res);
       if (res) {
         setPassword("");

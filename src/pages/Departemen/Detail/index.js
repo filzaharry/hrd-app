@@ -11,7 +11,7 @@ const DetailDepartemen = (props) => {
   const [data, setData] = useState({});
   useEffect(() => {
     const id = props.match.params.id;
-    Axios.get(`${API_URL}/departemen/${id}`)
+    Axios.get(`${API_URL}departemen/${id}`)
       .then((res) => {
         setData(res.data.data);
       })
@@ -31,7 +31,7 @@ const DetailDepartemen = (props) => {
           {" "}
           <div className="col">
             <img
-              src={`http://localhost:4000/${data.image}`}
+              src={`https://aplus-hrd-api-server.herokuapp.com/${data.image}`}
               className="img-thumbnail detail-departemen"
               alt="img-profile"
             />
