@@ -11,4 +11,15 @@
             margin-bottom: 16px;
         }
     }
+    .hiden {
+        display: none;
+    }
 }
+
+@media print {
+    
+    .notprint, .sidebar {
+        display: none;
+        visibility: hidden;
+    }
+ }

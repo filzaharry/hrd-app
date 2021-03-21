@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.16 22.16"><defs><style>.cls-1{fill:#fff;}</style></defs><title>tentang</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M11.08,0A11.08,11.08,0,1,0,22.16,11.08,11.08,11.08,0,0,0,11.08,0Zm.21,20.86a9.78,9.78,0,1,1,9.78-9.78A9.78,9.78,0,0,1,11.3,20.86Z"/><path class="cls-1" d="M10.17,6.38a1.27,1.27,0,0,1,0-1.82,1.29,1.29,0,0,1,2.2.91,1.29,1.29,0,0,1-2.2.91ZM12.08,18H10V8.31h2Z"/></g></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+</style>
+<path class="st0" d="M320.8,371.8h40v80c0,33.1-26.9,60-60,60H60c-33.1,0-60-26.9-60-60V60C0,26.9,26.9,0,60,0h240.9
+	c33.1,0,60,26.9,60,60v80h-40V60c0-11-9-20-20-20H60c-11,0-20,9-20,20v391.8c0,11,9,20,20,20h240.9c11,0,20-9,20-20V371.8z
+	 M417.8,161.6l-28.3,28.3l46,46H176.9v40h258.6l-46,46l28.3,28.3l94.2-94.2L417.8,161.6z"/>
+</svg>

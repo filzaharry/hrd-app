@@ -8,6 +8,7 @@ import Dashboard from "../Dashboard";
 import Messages from "../Messages";
 import Notification from "../Notifications";
 import UserSettings from "../UserSettings";
+import './mainapp.css'
 
 
 
@@ -17,11 +18,11 @@ const MainApp = () => {
     return <Redirect to="/landingpage" />
   }
   return (
-    <div>
+    <div className="body">
       <Router>
         <Header />
         <Sidebar />
-        <div className="container pt-4">
+        <div className="main pt-4">
           <Switch>
             <Route path="/karyawan" component={Karyawan} />
             <Route path="/jabatan" component={Jabatan} />

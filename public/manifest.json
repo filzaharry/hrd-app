@@ -3,7 +3,7 @@
   "short_name": "hrd-app",
   "lang": "en",
   "description": "Aplus-HRD PWA Web-App",
-  "start_url": ".",
+  "start_url": "https://aplus-hrd.netlify.app/",
   "display": "standalone",
   "background_color": "#1b212f",
   "theme_color": "#1b212f",

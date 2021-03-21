@@ -1,91 +1,126 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Axios from "axios";
 import { Spinner } from "reactstrap";
 import moment from "moment";
-import { Gap } from "../../components";
-import { faCheck, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { Back, Gap } from "../../components";
+import { faInfo, faList, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ModalTambahPeriode from "./Create";
-import { API_URL } from "../../config/utils/constants";
+import ModalCreate from "./Create";
+import { API, API_URL } from "../../config/utils/constants";
+import { setDetailKaryawan } from "../../config/redux/action";
+import { useDispatch, useSelector } from "react-redux";
+import { confirmAlert } from "react-confirm-alert";
+import Axios from "axios";
 
-const ProfileKaryawan = (props) => {
+const Periode = (props) => {
   const history = useHistory();
-  const [data, setData] = useState({});
+  const { dataKaryawan } = useSelector((state) => state.detailKaryawanReducer);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const id = props.match.params.id;
-    // console.log(props);
-    Axios.get(`${API_URL}karyawan/${id}`)
-      .then((res) => {
-        setData(res.data.data);
-      })
-      .catch((err) => {
-        console.log("err: ", err);
-      });
-  }, [props]);
+    dispatch(setDetailKaryawan(id));
+  }, [dispatch, props]);
 
-  // const history = useHistory();
-  const departemen = data.departemenId;
-  const jabatan = data.jabatanId;
-  const periode = data.periodeId;
+  const submitHapus = (_id) => {
+    // console.log(_id);
+    confirmAlert({
+      title: "Confirm to Delete",
+      message: "Apakah Anda yakin akan menghapus Data Jabatan ini ?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            // console.log(_id);
+            Axios.delete(`${API_URL}periode/${_id}`)
+              .then((res) => {
+                console.log("berhasil menghapus Jabatan", res.data);
+                window.location.reload();
+              })
+              .catch((err) => {
+                console.log("gagal hapus", err);
+              });
+          },
+        },
+        {
+          label: "No",
+          onClick: () => alert("User Tidak Setuju"),
+        },
+      ],
+    });
+  }
+
+ 
+  
+  const departemen = dataKaryawan.departemenId;
+  const jabatan = dataKaryawan.jabatanId;
+  const periode = dataKaryawan.periodeId;
   if (departemen || jabatan) {
     // console.log("departemen", departemen.nama_dep)
     // console.log("jabatan", jabatan.nama_jab)
     return (
       <Fragment>
+        <div className="container">
+        <Back
+          route={`/karyawan/profile/${dataKaryawan.name}/periode`}
+          title="Kembali ke Profil"
+          onClick={() => history.push(`/karyawan/profile/${dataKaryawan._id}`)}
+        />
         <div className="row">
           <div className="col-sm col-lg-3">
             <img
-              src={`https://aplus-hrd-api-server.herokuapp.com/${data.image}`}
+              src={`${API}${dataKaryawan.image}`}
               className="img-thumbnail profile-karyawan"
               alt="img-profile"
             />
           </div>
           <div className="col-sm col-lg-6">
-            <h1>{data.name}</h1>
+            <h1>{dataKaryawan.name}</h1>
             <h5>{jabatan.nama_jab} {departemen.nama_dep}</h5>
-            <p className="font-italic">{data.nik}</p>
-              <ModalTambahPeriode onClick={()=> history.push('/periode/tambah-periode')} />
+            <p className="font-italic">APK{dataKaryawan.nik}</p>
+            <ModalCreate />
           </div>
           <hr />
-        <div className="container-fluid">
-          <Gap height={20} />
+          <div className="container-fluid">
+            <Gap height={40} />
 
-          {/* <CustomTable /> */}
-
-
-          <Gap height={20} />
-          <div className="table-responsive">
-          <table className="table table-hover">
-            <thead className="thead-light">
-              <tr>
-                <th scope="col">Tanggal Mulai</th>
-                <th scope="col">Tanggal Selesai</th>
-                <th scope="col">Total Nilai</th>
-                <th scope="col">Status</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-            {periode &&
-            periode.map((getPeriodeList) => (
-
-                <tr key={getPeriodeList._id}>
-                  <td>{moment(getPeriodeList.tglMulai).format('LL')}</td>
-                  <td>{moment(getPeriodeList.tglSelesai).format('LL')}</td>
-                  {/* <td style={{cursor: "pointer"}} className="text-primary" onClick={()=> history.push(`/periode/${getPeriodeList.id}/nilaihrd`)}>Lihat Nilai</td>
-                  <td style={{cursor: "pointer"}} className="text-primary" onClick={()=> history.push(`/periode/${getPeriodeList.id}/nilaispv`)}>Lihat Nilai</td> */}
-                  <td>{getPeriodeList.totalNilai}</td>
-                  <td className="text-info"><FontAwesomeIcon icon={faCheck} /> {getPeriodeList.status}</td>
-                  <td><button className="btn btn-info mr-2" onClick={()=> history.push(`periode/${getPeriodeList._id}`)}><FontAwesomeIcon icon={faInfo} /> Detail</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            {/* <CustomTable /> */}
+            <div className="table-responsive">
+              <table className="table table-hover">
+                <thead className="thead-light">
+                  <tr>
+                    <th scope="col">Periode Ke-</th>
+                    <th scope="col">Tanggal Mulai</th>
+                    <th scope="col">Tanggal Selesai</th>
+                    <th scope="col">Nilai HRD</th>
+                    <th scope="col">Nilai SPV</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {periode.map((periodList) => (
+                    <tr key={periodList._id}>
+                      <td><FontAwesomeIcon icon={faList}/> {periodList.periodeKe}</td>
+                      <td>{moment(periodList.tglMulai).format("LL")}</td>
+                      <td>{moment(periodList.tglSelesai).format("LL")}</td>
+                      <td style={{cursor: "pointer"}} className="text-info" onClick={()=> history.push(`periode/${periodList._id}/nilaihrd`)}>Lihat Nilai</td>
+                      <td style={{cursor: "pointer"}} className="text-info" onClick={()=> history.push(`periode/${periodList._id}/nilaispv`)}>Lihat Nilai</td>
+                      <td>
+                        <p className="btn btn-info mr-2" onClick={() => history.push(`periode/${periodList._id}`)}>
+                          <FontAwesomeIcon icon={faInfo} />
+                          </p>
+                        <p className="btn btn-danger mr-2" onClick={() => submitHapus(periodList._id)}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </p>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-          </div>
-          </div>
+        </div>
+        </div>
       </Fragment>
     );
   }
@@ -96,4 +131,4 @@ const ProfileKaryawan = (props) => {
   );
 };
 
-export default ProfileKaryawan;
+export default Periode;

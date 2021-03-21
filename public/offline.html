@@ -1,44 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Weather App</title>
-        <style type="text/css">
-            html {
-                height: 100%;
-            }
-            body {
-                height: 100%;
-                margin: 0;
-                background: #0a1f44;
-                display: flex;
-                align-items: center;
-                text-align: center;
-                justify-content: center;
-            }
-        
-            .city {
-                align-items: center;
-                width: 80%;
-                display: flex;
-                justify-content: center;
-                flex-direction: column;
-                padding: 40px 8%;
-                border-radius: 20px;
-                background: #fff;
-            }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.png" />
+    <title>Aplus SPV App</title>
+    <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-            .city-name {
-                font-size: 2em;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="city">
-            <h2 class="city-name">
-                <span>Please go online to check the current weather.</span>
-            </h2>
-        </div>
-    </body>
+      html {
+        height: 100%;
+      }
+      body {
+        font-family: 'Poppins', sans-serif !important;
+        margin-top: 200px;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+      .oops {
+          font-size: 50px;
+          margin: -20px;
+      }
+      .oops-desc {
+          font-size: 13px;
+      }
+      .btn-refresh {
+          padding: 8px 50px;
+          background-color: #ff6d22;
+          border: none;
+          border-radius: 3px;
+          color: white;
+          font-family: 'Poppins', sans-serif !important;
+      }
+      .btn-homepage {
+          margin-top: 8px;
+          padding: 8px 50px;
+          background-color: #c5c5c5;
+          border: none;
+          border-radius: 3px;
+          color: white;
+          font-family: 'Poppins', sans-serif !important;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="oops">Oops!!</h1>
+    <h6 class="oops-desc">
+      Sepertinya ada yang tidak beres,<br />
+      Periksa jaringan Anda dan coba kembali
+    </h6>
+    <button class="btn-refresh" onclick="history.go(0)">Refresh Halaman</button>
+    <br />
+    <button class="btn-homepage" onclick="window.location.href='/'">Kembali ke Home</button>
+  </body>
 </html>

@@ -1,0 +1,16 @@
+.card-dep {
+    border-radius: 20px;
+    background-color: whitesmoke;
+    padding: -10px;
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        border-radius: 30px;
+    }
+}
+.card-dep:hover{
+    box-shadow: 9px 29px 108px -5px rgba(0,0,0,0.39);
+    transition: 0.2s;
+    margin-top: -20px;
+}

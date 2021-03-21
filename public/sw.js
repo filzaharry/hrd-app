@@ -1,5 +1,14 @@
-const CACHE_NAME = "version-1";
-const urlsToCache = [ 'index.html', 'offline.html' ];
+const CACHE_NAME = "hrd-version-1";
+const urlsToCache = [ 
+    'index.html', 
+    'offline.html',
+    '/karyawan',
+    '/departemen',
+    '/static/js/main.chunk.js',
+    '/static/js/0.chunk.js',
+    '/static/js/bundle.js',
+    '/',
+ ];
 
 const self = this;
 
@@ -8,23 +17,44 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('Opened cache');
-
-                return cache.addAll(urlsToCache);
+                cache.addAll(urlsToCache);
             })
     )
 });
 
 // Listen for requests
 self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request)
-            .then(() => {
-                return fetch(event.request) 
-                    .catch(() => caches.match('offline.html'))
+    if(!navigator.onLine){
+        if(event.request.url === 'https://aplus-hrd.netlify.app/static/js/main.chunk.js'){
+            event.waitUntil(
+                this.registration.showNotification("Mode Offline", {
+                    body: "Anda memasuki mode tanpa Internet",
+                    icon: '/icon-192x192-offline.png',
+
+                })
+            )
+        }
+        // console.warn("url", event.request.url) 
+        event.respondWith(
+                  fetch(event.request).catch(function() {
+                    return caches.match(event.request);
             })
-    )
+        );    
+    } else {
+        if(event.request.url === 'https://aplus-hrd.netlify.app/static/js/main.chunk.js'){
+            event.waitUntil(
+                this.registration.showNotification("Aplus HRD", {
+                    body: "Selamat Datang Kembali",
+                    icon: '/icon-192x192.png',
+
+                })
+            )
+        }
+    }
+    
 });
+
+  
 
 // Activate the SW
 self.addEventListener('activate', (event) => {

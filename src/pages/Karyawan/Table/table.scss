@@ -1,0 +1,21 @@
+.table {
+    border-radius: 100px !important;
+    overflow: hidden;
+    .thead {
+        border-collapse: collapse;
+        box-shadow: 15px 2px 48px -21px rgba(0,0,0,0.75);
+        background-color: #ff6d22;
+        border-radius: 100px !important;
+        color: white;
+    }
+    .gambar-karyawan {
+        height: 40px;
+        width: 40px;
+        border-radius: 100%;
+        margin-top: 5px;
+        object-fit: cover;
+    }
+    .td {
+        padding-top: 25px;
+    }
+}

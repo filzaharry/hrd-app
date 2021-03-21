@@ -1,95 +1,88 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Axios from "axios";
-import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { setPeriodeForm, updateToAPIPeriode } from "../../../config/redux/action";
 import { API_URL } from "../../../config/utils/constants";
 
-const ModalEditPeriode = (props) => {
+
+const ModalEdit = (props) => {
   const [modal, setModal] = useState(false);
-  const [periode, setPeriode] = useState('');
-  const [tglMulai, setTglMulai] = useState('')
-  const [tglSelesai, setTglSelesai] = useState('');
-  const [error, setError] = useState("");
+  const toggle = () => setModal(!modal);
+  const {form} = useSelector(state => state.createPeriodeReducer);
+  const {periodeKe, tglMulai, tglSelesai} = form;
+  const dispatch = useDispatch();
+  // const [error, setError] = useState("");
+  
+  useEffect(()=> {
+    const id = props.match.params.id;
+    Axios.get(`${API_URL}periode/${id}`)
+    .then( res => {
+      const data = res.data.data;
+      console.log('res', data);
+      dispatch(setPeriodeForm("tglMulai", data.tglMulai))
+      dispatch(setPeriodeForm("tglSelesai", data.tglSelesai))
 
-  const changePeriode = (e) => {
-    const value = e.target.value
-    setPeriode(value);
-    setError("");
-  }
-  const changeTglMulai = (e) => {
-    const value = e.target.value
-    setTglMulai(value);
-    setError("");
-  }
-  const changeTglSelesai = (e) => {
-    const value = e.target.value
-    setTglSelesai(value);
-    setError("");
-  }
+    })
+    .catch( err => {
+      console.log('err', err);
+    })
+  }, [dispatch, props])
 
-const {id} = useParams();
-  const toggle = () => {
-    console.log(id);
+  const submitPeriode = () => {
+    const id = props.match.params.id;
     setModal(!modal)
-    const data = {
-      periode: periode,
-      tglMulai: tglMulai,
-      tglSelesai: tglSelesai,
-    }
-    Axios
-      .put(`${API_URL}periode/${id}`, data)
-      .then((result) => {
-        if (result) {
-          if (result.data) {
-            setPeriode("");
-            setTglMulai("");
-            setTglSelesai("");
-            // window.location.reload(false);
-            // setAlert(result.data.message);
-            // setTimeout(() => {
-            //   setAlert("");
-            // }, 3000);
-          }
-        }
-      })
-      .catch((error) => {
-        setError(error.response.data.message);
-      });
+    updateToAPIPeriode(form, id)
+    window.location.reload()
   }
-
 
   return (
-    <div className="btn btn-warning mr-2">
-      <Link style={{color: "white"}} onClick={toggle}><FontAwesomeIcon icon={faEdit}/> Ubah</Link>
+    <Fragment>
+      <p className="btn btn-warning mr-2" onClick={toggle}>Ubah Data Periode</p>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Ubah Data Periode</ModalHeader>
+        {/* {error && (
+            <div className="alert alert-danger">
+              <p>{error}</p>
+            </div>
+          )} */}
         <ModalBody>
         <div className="form-group">
-            <label for="periode">Periode Ke</label>
-            <input class="form-control" id="periode" type="number" onChange={changePeriode} />
+            <label for="periodeKe">Periode Ke -</label>
+            <input class="form-control" id="periodeKe" 
+            onChange={(e)=> dispatch(setPeriodeForm('periodeKe', e.target.value))}
+            value={periodeKe}
+            type="number"  />
         </div>
         <div className="form-group">
-            <label for="periode">Tanggal Mulai</label>
-            <input class="form-control" id="periode" type="date" onChange={changeTglMulai} />
+            <label for="tglMulai">Tanggal Mulai</label>
+            <input class="form-control" id="tglMulai" 
+            onChange={(e)=> dispatch(setPeriodeForm('tglMulai', e.target.value))}
+            value={tglMulai}
+            type="date"  />
         </div>
         <div className="form-group">
-            <label for="periode">Tanggal Selesai</label>
-            <input class="form-control" id="periode" type="date" onChange={changeTglSelesai} />
+            <label for="tglSelesai">Tanggal Selesai</label>
+            <input class="form-control" id="tglSelesai" 
+            onChange={(e)=> dispatch(setPeriodeForm('tglSelesai', e.target.value))}
+            value={tglSelesai}
+            type="date"  />
         </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
-            Update Nilai
+          <Button color="primary" onClick={submitPeriode}>
+            Update 
           </Button>{" "}
           <Button color="secondary" onClick={toggle}>
             Batal
           </Button>
         </ModalFooter>
       </Modal>
-    </div>
+    </Fragment>
   );
 };
 
-export default ModalEditPeriode;
+export default withRouter(ModalEdit);

@@ -1,0 +1,19 @@
+
+.small-card-dashboard-2 {
+    max-width: 150px;
+    width: 150px;
+    border-radius: 10px;
+    
+    .img-card-dashboard{
+        margin-top: 10px;
+        max-width: 70px;
+        width: 70px;
+    }
+}
+
+.small-card-dashboard-2:hover{
+    text-decoration: underline;
+    color: white;
+    box-shadow: 10px 16px 31px -8px rgba(0,0,0,0.28);
+
+}

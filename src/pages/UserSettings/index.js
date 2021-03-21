@@ -1,48 +1,116 @@
-import { faSave } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { Button, Gap } from "../../components";
+import React, { useEffect } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Spinner } from "reactstrap";
+import { ImageProfile } from "../../assets";
+import { Back, Button, Gap } from "../../components";
+import { setDataUser } from "../../config/redux/action";
 
 const UserSettings = () => {
+  const { dataUser } = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    dispatch(setDataUser());
+  }, [dispatch]);  
+
+  const logOut = () => {
+    confirmAlert({
+      title: "Confirm to Delete",
+      message:
+        "Apakah Anda Yakin ingin Keluar ?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            // console.log(_id);
+            localStorage.clear()
+            window.location.reload();
+          },
+        },
+        {
+          label: "No",
+          onClick: () => alert("User Tidak Setuju"),
+        },
+      ],
+    });
+  }
+  
+  
+  const departemen = dataUser.departemenId;
+  const jabatan = dataUser.jabatanId;
+console.log(dataUser)
+  if (departemen || jabatan) {
   return (
     <div className="container">
-      <Gap height={30} />
-      <h1>Pengaturan</h1>
+      <Back title="Kembali ke Dashboard" route="/user-settings" onClick={()=> history.push('/')} />
+      <Gap height={10} />
       <div className="col">
-        <div className="ml-2">
+      <h3>User Profile</h3>
+        <div className="ml-2 row">
           <Gap height={30} />
-          <div class="form-group col-lg-8">
-            <div className="row">
-              <Gap width={15} />
-              <Button title="Reset Password" />
-              <Gap width={20} />
-              <Button title="Logout" />
-            </div>
-            <Gap height={30} />
-            <label for="username">Ganti Username :</label>
+          <div class="form-group col-lg-6">
+            <label for="username">Nama Administrator :</label>
             <input
               type="text"
-              class="form-control"
-              id="username"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
+              className="form-control disabled"
+              id="namaLengkap"
+              placeholder={dataUser.namaLengkap}
+              disabled
             />
             <Gap height={20} />
-            <label for="username">Ganti Email :</label>
+            <label for="username">Departemen :</label>
+            <input
+              type="text"
+              className="form-control disabled disabled"
+              id="namaLengkap"
+              placeholder={departemen.nama_dep}
+              disabled
+            />
+            <Gap height={20} />
+            <label for="username">Jabatan :</label>
+            <input
+              type="text"
+              className="form-control disabled"
+              id="namaLengkap"
+              placeholder={jabatan.nama_jab}
+              disabled
+            />
+            <Gap height={10} />
+            <hr/>
+            <label for="username">Username :</label>
+            <input
+              type="text"
+              className="form-control disabled"
+              id="username"
+              placeholder={dataUser.username}
+              disabled
+            />
+            <Gap height={20} />
+            <label for="email">Email :</label>
             <input
               type="email"
-              class="form-control"
+              className="form-control disabled"
               id="username"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
+              placeholder={dataUser.email}
+              disabled
             />
             <Gap height={40} />
-            <button className="btn btn-info" style={{float: "right"}}>
-              <FontAwesomeIcon icon={faSave} /> Simpan
-            </button>
+            <Button style={{float: "right"}} title="Logout" onClick={logOut} />
+          </div>
+          <div className="col-lg-6" >
+              <img src={ImageProfile} alt="imageprofile" />
           </div>
         </div>
       </div>
+    </div>
+    )
+  }
+  return (
+    <div className="text-center mt-4">
+      <Spinner type="grow" variant="warning" />
     </div>
   );
 };

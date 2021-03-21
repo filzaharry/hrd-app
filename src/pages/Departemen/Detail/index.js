@@ -2,12 +2,15 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Spinner, Button } from "reactstrap";
 import "./detail.scss";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
-import { API_URL } from "../../../config/utils/constants";
+import { API, API_URL } from "../../../config/utils/constants";
+import moment from 'moment';
+import { Back } from "../../../components";
 
 const DetailDepartemen = (props) => {
+  const history = useHistory();
   const [data, setData] = useState({});
   useEffect(() => {
     const id = props.match.params.id;
@@ -21,52 +24,54 @@ const DetailDepartemen = (props) => {
   }, [props]);
 
   const karyawan = data.karyawanId;
-  if (karyawan) {
+  // if (karyawan) {
     console.log([data.karyawanId]);
-  }
+  // }
   return (
     <div>
       {karyawan ? (
         <Fragment>
-          {" "}
+          <Back title="Kembali ke Departemen" onClick={()=> history.push('/departemen')} route="/departemen/detail" />
           <div className="col">
             <img
-              src={`https://aplus-hrd-api-server.herokuapp.com/${data.image}`}
+              src={`${API}${data.image}`}
               className="img-thumbnail detail-departemen"
               alt="img-profile"
             />
             <div className="ml-2">
-              <h1 className="display-4">Departemen : {data.nama_dep}</h1>
-              <h4 className="text-muted font-small">
-                Kategori :{data.kategori}
-              </h4>
-              <h4 className="text-muted font-small">
-                Supervisor :{data.supervisor}
-              </h4>
+              <h2 style={{fontWeight: "bold"}}>{data.nama_dep}</h2>
+              <div className="row">
+                <div className="col-lg-6">
+                  <h5 className="text-muted font-small">Kategori : {data.kategori}</h5>
+                  <p className="text-success">Supervisor : {data.supervisor}</p>
+                </div>
+                <div className="col-lg-6">
+                  <p className="text-muted font-small text-right">
+                  Dibentuk : {moment(data.createdAt).format('LL')}
+                  <br/>
+                  Diubah : {moment(data.updatedAt).format('LL')}
+                  </p>
+                </div>
+              </div>
+              
               <hr />
 
               <table className="table mt-4 shadow p-3 mb-5 bg-white rounded">
-                <thead>
+                <thead className="thead-dark">
                   <tr className="text-primary">
+                    <th></th>
                     <th scope="col">Nama Karyawan</th>
                     <th scope="col">NIK</th>
                     <th scope="col">Tanggal Mulai Bekerja</th>
-                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.karyawanId.map((karyawan) => (
                     <tr>
+                      <td></td>
                       <td>{karyawan.name}</td>
-                      <td>{karyawan.nik}</td>
-                      <td>{karyawan.tglMulai}</td>
-                      <td>
-                        <Link to="edit">
-                          <Button color="info" className="mr-2">
-                            <FontAwesomeIcon icon={faInfo} /> Lihat Profil
-                          </Button>
-                        </Link>
-                      </td>
+                      <td>APK. {karyawan.nik}</td>
+                      <td>{moment(karyawan.tglMulai).format('LL')}</td>
                     </tr>
                   ))}
                 </tbody>

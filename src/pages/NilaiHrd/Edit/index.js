@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { API_URL } from "../../../config/utils/constants";
@@ -80,13 +80,18 @@ const ModalEditNilaiHRD = (props) => {
   };
 
   return (
-    <div className="btn btn-warning mr-2">
-      <Link color="danger" onClick={toggle} className="text-light">
-        Edit
+    <div>
+      <Link color="danger" onClick={toggle}>
+        {buttonLabel}
       </Link>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>Form Nilai HRD</ModalHeader>
         <p>{props.id}</p>
+        {error && (
+            <div className="alert alert-danger">
+              <p>{error}</p>
+            </div>
+          )}
         <ModalBody>
           <div className="form-group">
             {/* validasi maksimal number 10 */}

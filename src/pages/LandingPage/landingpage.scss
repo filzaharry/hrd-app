@@ -45,6 +45,18 @@
   .navbar-nav{
       display: none;
   }
+  .nav-link:hover{
+      color: orange !important;
+  }
+
+  .section-2{
+    margin-top: 100px;
+    color: grey;
+  }
+
+  .section-2 h1 {
+    color: black;
+  }
 
   /* Large devices (desktops, 992px and up) */
   @media (min-width: 992px) {
@@ -92,6 +104,9 @@
 
     .nav-footer {
       font-size: 18px;
+    }
+    .section-2{
+      margin-top: -70px;
     }
   }
 }

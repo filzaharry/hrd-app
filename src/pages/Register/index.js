@@ -6,15 +6,36 @@ import "./register.scss";
 import axios from "axios";
 import addNotification from "react-push-notification";
 import swal from "sweetalert";
+import SelectDepartemen from "./SelectDepartemen"
+import SelectJabatan from "./SelectJabatan"
+import { API } from "../../config/utils/constants";
 
 const Register = () => {
   const history = useHistory();
   const [username, setUsername] = useState("");
+  const [namaLengkap, setNamaLengkap] = useState("");
+  const [jabatan, setJabatan] = useState("");
+  const [departemen, setDepartemen] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [alert, setAlert] = useState("");
+  const [alert, setAlert] = useState("");
   const [error, setError] = useState("");
 
+  const ChangeNamaLengkap = (e) => {
+    const value = e.target.value;
+    setNamaLengkap(value);
+    setError("");
+  };
+  const ChangeJabatan = (e) => {
+    const value = e.target.value;
+    setJabatan(value);
+    setError("");
+  };
+  const ChangeDepartemen = (e) => {
+    const value = e.target.value;
+    setDepartemen(value);
+    setError("");
+  };
   const ChangeUsername = (e) => {
     const value = e.target.value;
     setUsername(value);
@@ -34,22 +55,28 @@ const Register = () => {
   const RegisterClick = () => {
     const data = {
       username: username,
+      namaLengkap: namaLengkap,
+      departemen: departemen,
+      jabatan: jabatan,
       email: email,
       password: password,
     };
-    // console.log(data);
+    console.log(data);
     axios
-      .post("https://aplus-hrd-api-server.herokuapp.com/v1/register", data)
+      .post(`${API}v1/register`, data)
       .then((result) => {
         if (result) {
           if (result.data) {
+            setNamaLengkap("");
+            setDepartemen("");
+            setJabatan("");
             setUsername("");
             setEmail("");
             setPassword("");
-            // setAlert(result.data.message);
-            // setTimeout(() => {
-            //   setAlert("");
-            // }, 3000);
+            setAlert(result.data.message);
+            setTimeout(() => {
+              setAlert("");
+            }, 1000);
             history.push("/");
             swal(
               "Berhasil !",
@@ -59,10 +86,9 @@ const Register = () => {
             addNotification({
               title: "Registrasi Berhasil !!!",
               message: result.data.message,
-              icon: "https://cdn.worldvectorlogo.com/logos/pwa-logo.svg",
               theme: "darkblue",
               native: true,
-              duration: 30000, // when using native, your OS will handle theming.
+              duration: 30000,
             });
           }
         }
@@ -73,38 +99,78 @@ const Register = () => {
   };
 
   return (
-    <div className="container-fluid register">
+    <div className="register text-light">
       <section className="row">
         <div className="col-6 text-center left">
           <img className="rounded" src={LoginBg} alt="register-hero-img" />
         </div>
         <div className="col right">
           {error && (
-            <div className="alert alert-danger">
+            <div className="alert alert-danger float-right" style={{position: "relative"}}>
               <p>{error}</p>
             </div>
           )}
-          <Gap height={10} />
-          <h1 className="display-4">Register</h1>
-          <h6 className="font-weight-lighter">
-            Buat akun anda agar bisa masuk ke Sistem
-          </h6>
-          <Gap height={30} />
+          <h1 className="display-4">Registrasi</h1>
+          
           <Input
+            type="text"
+            label="Nama Lengkap"
+            placeholder="Nama Lengkap"
+            value={namaLengkap}
+            onChange={ChangeNamaLengkap}
+          />
+          <Gap height={10} />
+
+
+          <p className="text-danger">*Departemen dan Jabatan wajib diisi</p>
+          <div class="form-row">
+            <div class="form-group col">
+            <label for="jabatan">Jabatan</label>
+              <select
+                id="jabatan"  
+                className="form-control"
+                value={jabatan}
+                onChange={ChangeJabatan}
+              >
+                <option selected>Choose...</option>
+                <SelectJabatan />
+              </select>
+            </div>
+            <div class="form-group col">
+            <label for="departemen">Departemen</label>
+              <select
+                id="departemen"
+                className="form-control"
+                value={departemen}
+                onChange={ChangeDepartemen}
+              >
+                <option selected>Choose...</option>
+                <SelectDepartemen />
+              </select>
+            </div>
+          </div>
+
+          <Gap height={10} />
+          <div class="form-row">
+            <div class="form-group col">
+            <Input
             type="text"
             label="Username"
             placeholder="Username"
             value={username}
             onChange={ChangeUsername}
           />
-          <Gap height={10} />
-          <Input
+            </div>
+            <div class="form-group col">
+            <Input
             type="email"
             label="Email"
             placeholder="example@gmail.com"
             value={email}
             onChange={ChangeEmail}
           />
+            </div>
+          </div>
           <Gap height={10} />
           <Input
             type="password"
@@ -117,7 +183,7 @@ const Register = () => {
           <Button title="Register" onClick={RegisterClick} />
           <Button
             className="btn btn-outline-secondary ml-3 text-light"
-            title="Back to Login"
+            title="Kembali ke Login"
             onClick={() => history.push("/login")}
           />
         </div>

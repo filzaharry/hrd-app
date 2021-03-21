@@ -86,6 +86,11 @@ const ModalTambahNilaiHRD = (props) => {
       </Link>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>Form Nilai HRD</ModalHeader>
+        {error && (
+            <div className="alert alert-danger">
+              <p>{error}</p>
+            </div>
+          )}
         <ModalBody>
           <div className="form-group">
             {/* validasi maksimal number 10 */}
@@ -147,7 +152,7 @@ const ModalTambahNilaiHRD = (props) => {
           <Button color="primary" onClick={submitNilaiHRD}>
             Simpan
           </Button>{" "}
-          <Button color="secondary" onClick={submitNilaiHRD}>
+          <Button color="secondary" onClick={toggle}>
             Tidak
           </Button>
         </ModalFooter>

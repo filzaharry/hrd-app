@@ -12,7 +12,7 @@ const Jobs = (props) => {
             <tbody>
               <tr>
                 <td>NIK</td>
-                <td className="p-3 text-primary">: {props.nik}</td>
+                <td className="p-3 text-primary">: APK{props.nik}</td>
               </tr>
               <tr>
                 <td>Tanggal Masuk</td>

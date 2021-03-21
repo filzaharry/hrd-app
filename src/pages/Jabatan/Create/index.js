@@ -1,114 +1,74 @@
-import React, { useState } from "react";
-import { Button, Col, Input, Label } from "reactstrap";
-import { Gap } from "../../../components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
-import Axios from "axios";
-import swal from "sweetalert";
-import addNotification from "react-push-notification";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import NumberFormat from "react-number-format";
+import { BriefcaseJabatan } from "../../../assets";
+import { Back, Gap } from "../../../components";
+import { postToAPIJabatan, setJabatanForm } from "../../../config/redux/action";
 
-const CreateJabatan = () => {
-  const [nama_jab, setNamaJab] = useState("");
-  const [upahPerHari, setUpahPerHari] = useState("");
-  const [upahRataPerBulan, setUpahRataPerBulan] = useState("");
-  const [error, setError] = useState("");
-  const history = useHistory();
+const JabatanCreate = () => {
+  const {form} = useSelector(state => state.createJabatanReducer);
+  const {nama_jab, upahPerHari, upahRataPerBulan} = form;
+  const dispatch = useDispatch();
+  const history = useHistory()
 
-  const changeKategori = (e) => {
-    const value = e.target.value;
-    setNamaJab(value);
-    setError("");
-  };
-  const changeUph = (e) => {
-    const value = e.target.value;
-    setUpahPerHari(value);
-    setError("");
-  };
-  const changeRata = (e) => {
-    const value = e.target.value;
-    setUpahRataPerBulan(value);
-    setError("");
-  };
-
-  const submitJabatan = () => {
-    const data = {
-      nama_jab: nama_jab,
-      upahPerHari: upahPerHari,
-      upahRataPerBulan: upahRataPerBulan,
-    };
-    // console.log(data);
-    Axios.post("http://localhost:4000/v1/hrd/jabatan", data)
-      .then((result) => {
-        if (result) {
-          if (result.data) {
-            setNamaJab("");
-            setUpahPerHari("");
-            setUpahRataPerBulan("");
-            swal("Berhasil !", result.data.message, "success");
-            history.push("/jabatan");
-            addNotification({
-              title: "Tambah Jabatan Berhasil !!!",
-              message: result.data.message,
-              // icon: "https://cdn.worldvectorlogo.com/logos/pwa-logo.svg",
-              theme: "darkblue",
-              native: true,
-              duration: 30000, // when using native, your OS will handle theming.
-            });
-          }
-        }
-      })
-      .catch((error) => {
-        setError(error.response.data.message);
-      });
-  };
-
+  const onSubmit = () => {
+    postToAPIJabatan(form)
+    // belom auto reload
+    history.push('/jabatan')
+  }
   return (
-    <Col md={5}>
-      {error && (
-        <div className="alert alert-danger">
-          <p>{error}</p>
-        </div>
-      )}
-      <Label for="kategori">Kategori :</Label>
-      <Input
-        type="text"
-        name="kategori"
-        id="kategori"
-        value={nama_jab}
-        onChange={changeKategori}
-      />
-      <Gap height={20} />
-      <Label for="uph">Updah Per Hari :</Label>
-      <NumberFormat
-        thousandSeparator={true}
-        prefix={"Rp."}
-        className="input-group"
-        name="uph"
-        id="uph"
-        value={upahPerHari}
-        onChange={changeUph}
-      />
-      <Gap height={20} />
-      <Label for="rata-rata">Rata - rata Upah Per Bulan :</Label>
-      <NumberFormat
-        thousandSeparator={true}
-        prefix={"Rp."}
-        className="input-group"
-        name="rata-rata"
-        id="rata-rata"
-        value={upahRataPerBulan}
-        onChange={changeRata}
-      />
-      <Gap height={20} />
+    <div className="container">
 
-      <Button color="dark" className="mr-2" onClick={submitJabatan}>
-        <FontAwesomeIcon icon={faUserAlt} /> Tambah Jabatan
-      </Button>
-      <Gap height={50} />
-    </Col>
+    <Back title="Kembali ke Jabatan" onClick={()=> history.push('/jabatan')} />
+    <div className="row">
+      <div className="col-lg-7">
+        <h4>Tambah Jabatan</h4>
+        <Gap height={20} />
+        <form>
+          <div className="form-group">
+            <label for="nama_jab">Nama Jabatan</label>
+            <input
+              type="text"
+              className="form-control"
+              id="nama_jab"
+              onChange={(e)=> dispatch(setJabatanForm('nama_jab', e.target.value))}
+              value={nama_jab}
+              placeholder="Masukkan nama jabatan baru"
+            />
+          </div>
+          <div className="form-group">
+            <label for="upahPerHari">Upah Per Hari</label>
+            <input
+              type="number"
+              className="form-control"
+              id="upahPerHari"
+              onChange={(e)=> dispatch(setJabatanForm('upahPerHari', e.target.value))}
+              value={upahPerHari}
+              placeholder="Nominal Upah"
+            />
+          </div>
+          <div className="form-group">
+            <label for="upahPerBulan">Upah Per Bulan</label>
+            <input
+              type="number"
+              className="form-control"
+              id="upahRataPerBulan"
+              onChange={(e)=> dispatch(setJabatanForm('upahRataPerBulan', e.target.value))}
+              value={upahRataPerBulan}
+              placeholder="Nominal Upah"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary" onClick={onSubmit}>
+            Simpan
+          </button>
+        </form>
+      </div>
+      <div className="col-lg-5">
+        <img src={BriefcaseJabatan} alt="jabatan" />
+      </div>
+    </div>
+    </div>
   );
 };
 
-export default CreateJabatan;
+export default JabatanCreate;

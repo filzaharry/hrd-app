@@ -6,6 +6,7 @@ import "./login.scss";
 import axios from "axios";
 import addNotification from "react-push-notification";
 import swal from "sweetalert";
+import { API } from "../../config/utils/constants";
 
 const Login = () => {
   const history = useHistory();
@@ -26,32 +27,35 @@ const Login = () => {
     setError("");
   };
 
-  const submitLogin = () => {
+  const submitLogin = (e) => {
+    e.preventDefault();
+
     const data = {
       username: username,
       password: password,
     };
     axios
-      .post("http://localhost:4000/v1/login", data)
+      .post(`${API}v1/login`, data)
       .then((result) => {
         if (result) {
+          
+          localStorage.setItem("user",  JSON.stringify(result.data.dataUser));
           localStorage.setItem("token", result.data.token);
           setRedirect(true);
           swal("Selamat Datang !", result.data.message, "success");
           addNotification({
             title: "Selamat Datang Kembali !!!",
             message: result.data.message,
-            icon: "https://cdn.worldvectorlogo.com/logos/pwa-logo.svg",
             theme: "darkblue",
             native: true,
             duration: 30000,
           });
+          
         }
-        // console.log(result.data.token);
       })
-      .catch((e) => {
+      .catch((error) => {
         // console.log(e.response.data.message);
-        setError(e.response.data.message);
+        setError(error.response.data.message);
       });
   };
 

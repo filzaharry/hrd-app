@@ -29,9 +29,9 @@ const About = (props) => {
               <tr>
                 <td>Alamat</td>
                 <td className="p-3 text-primary" style={{ width: "300px" }}>
-                  <p>
+                  
                     : {props.alamat}
-                  </p>
+                  
                 </td>
               </tr>
             </tbody>

@@ -10,7 +10,7 @@ const Header = () => {
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
   return (
       <Fragment>
-        <div className="nav-wrapper">
+        <div className="nav-wrapper bg-light">
           <div className="container header">
             <nav className="navbar navbar-expand-lg navbar-light bg-darken-1">
               <button
@@ -29,19 +29,7 @@ const Header = () => {
                   isNavCollapsed ? "collapse" : ""
                 } navbar-collapse`}
               >
-                <form className="form-inline my-2 my-lg-0">
-                  <input
-                    className="form-control mr-sm-2"
-                    type="search"
-                    placeholder="Nama Karyawan"
-                  />
-                  <button
-                    className="btn btn-outline-dark my-2 my-sm-0"
-                    type="submit"
-                  >
-                    Cari
-                  </button>
-                </form>
+                
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item" onClick={() => history.push("/messages")}>
                     <div className="nav-link">

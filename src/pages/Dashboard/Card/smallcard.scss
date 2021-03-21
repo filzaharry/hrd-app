@@ -1,0 +1,17 @@
+.small-card-dashboard {
+    max-width: 320px;
+    width: 320px;
+    border-radius: 10px;
+    
+    .img-card-dashboard{
+        margin-top: 10px;
+        max-width: 70px;
+        width: 70px;
+    }
+}
+
+.small-card-dashboard:hover{
+    box-shadow: 10px 16px 31px -8px rgba(0,0,0,0.28);
+}
+
+

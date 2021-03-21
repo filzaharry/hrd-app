@@ -1,84 +1,60 @@
-import Axios from "axios";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { API_URL } from "../../../config/utils/constants";
+import { postToAPIPeriode, setPeriodeForm } from "../../../config/redux/action";
 
-const ModalTambahPeriode = () => {
+
+const ModalCreate = (props) => {
   const [modal, setModal] = useState(false);
-  const [periode, setPeriode] = useState('');
-  const [tglMulai, setTglMulai] = useState('')
-  const [tglSelesai, setTglSelesai] = useState('');
-  const [error, setError] = useState("");
-
-  const changePeriode = (e) => {
-    const value = e.target.value
-    setPeriode(value);
-    setError("");
-  }
-  const changeTglMulai = (e) => {
-    const value = e.target.value
-    setTglMulai(value);
-    setError("");
-  }
-  const changeTglSelesai = (e) => {
-    const value = e.target.value
-    setTglSelesai(value);
-    setError("");
-  }
-
-const id = useParams();
-  const toggle = () => {
-    // console.log(id);
+  const toggle = () => setModal(!modal);
+  const {form} = useSelector(state => state.createPeriodeReducer);
+  const {periodeKe, tglMulai, tglSelesai} = form;
+  const dispatch = useDispatch();
+  // const [error, setError] = useState("");
+  
+  const id = useParams();
+  const submitPeriode = () => {
     setModal(!modal)
-    const data = {
-      periode: periode,
-      tglMulai: tglMulai,
-      tglSelesai: tglSelesai,
-    }
-    Axios
-      .post(`${API_URL}karyawan/${id.id}`, data)
-      .then((result) => {
-        if (result) {
-          if (result.data) {
-            setPeriode("");
-            setTglMulai("");
-            setTglSelesai("");
-            window.location.reload(false);
-            // setAlert(result.data.message);
-            // setTimeout(() => {
-            //   setAlert("");
-            // }, 3000);
-          }
-        }
-      })
-      .catch((error) => {
-        setError(error.response.data.message);
-      });
+    postToAPIPeriode(form, id.id)
+    // window.location.reload()
   }
-
 
   return (
     <div className="btn btn-primary">
       <Link style={{color: "white"}} onClick={toggle}>Tambah Periode</Link>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Form Periode</ModalHeader>
+        {/* {error && (
+            <div className="alert alert-danger">
+              <p>{error}</p>
+            </div>
+          )} */}
         <ModalBody>
         <div className="form-group">
-            <label for="periode">Periode Ke</label>
-            <input class="form-control" id="periode" type="number" onChange={changePeriode} />
+            <label for="periodeKe">Periode Ke -</label>
+            <input class="form-control" id="periodeKe" 
+            onChange={(e)=> dispatch(setPeriodeForm('periodeKe', e.target.value))}
+            value={periodeKe}
+            type="number"  />
         </div>
         <div className="form-group">
-            <label for="periode">Tanggal Mulai</label>
-            <input class="form-control" id="periode" type="date" onChange={changeTglMulai} />
+            <label for="tglMulai">Tanggal Mulai</label>
+            <input class="form-control" id="tglMulai" 
+            onChange={(e)=> dispatch(setPeriodeForm('tglMulai', e.target.value))}
+            value={tglMulai}
+            type="date"  />
         </div>
         <div className="form-group">
-            <label for="periode">Tanggal Selesai</label>
-            <input class="form-control" id="periode" type="date" onChange={changeTglSelesai} />
+            <label for="tglSelesai">Tanggal Selesai</label>
+            <input class="form-control" id="tglSelesai" 
+            onChange={(e)=> dispatch(setPeriodeForm('tglSelesai', e.target.value))}
+            value={tglSelesai}
+            type="date"  />
         </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
+          <Button color="primary" onClick={submitPeriode}>
             Simpan
           </Button>{" "}
           <Button color="secondary" onClick={toggle}>
@@ -90,4 +66,4 @@ const id = useParams();
   );
 };
 
-export default ModalTambahPeriode;
+export default ModalCreate;
