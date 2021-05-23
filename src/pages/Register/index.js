@@ -8,7 +8,10 @@ import addNotification from "react-push-notification";
 import swal from "sweetalert";
 import SelectDepartemen from "./SelectDepartemen"
 import SelectJabatan from "./SelectJabatan"
-import { API } from "../../config/utils/constants";
+import { LOCAL } from "../../config/utils/constants";
+import { Toggle } from "../../components";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const history = useHistory();
@@ -20,6 +23,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState("");
   const [error, setError] = useState("");
+  const [PasswordInputType, ToggleIcon] = Toggle();
+  // const notify = () => toast(error);
 
   const ChangeNamaLengkap = (e) => {
     const value = e.target.value;
@@ -61,23 +66,12 @@ const Register = () => {
       email: email,
       password: password,
     };
-    console.log(data);
     axios
-      .post(`${API}v1/register`, data)
+      .post(`${LOCAL}v1/register`, data)
       .then((result) => {
         if (result) {
           if (result.data) {
-            setNamaLengkap("");
-            setDepartemen("");
-            setJabatan("");
-            setUsername("");
-            setEmail("");
-            setPassword("");
-            setAlert(result.data.message);
-            setTimeout(() => {
-              setAlert("");
-            }, 1000);
-            history.push("/");
+            history.push("/login");
             swal(
               "Berhasil !",
               result.data.message,
@@ -90,10 +84,23 @@ const Register = () => {
               native: true,
               duration: 30000,
             });
+            setNamaLengkap("");
+            setDepartemen("");
+            setJabatan("");
+            setUsername("");
+            setEmail("");
+            setPassword("");
+            setAlert(result.data.message);
+            console.log(result.data);
+            // setTimeout(() => {
+            //   setAlert("");
+            // }, 1000);
+            
           }
         }
       })
       .catch((error) => {
+        toast(error.response.data.message)
         setError(error.response.data.message);
       });
   };
@@ -106,8 +113,8 @@ const Register = () => {
         </div>
         <div className="col right">
           {error && (
-            <div className="alert alert-danger float-right" style={{position: "relative"}}>
-              <p>{error}</p>
+            <div>
+            <ToastContainer />
             </div>
           )}
           <h1 className="display-4">Registrasi</h1>
@@ -173,12 +180,13 @@ const Register = () => {
           </div>
           <Gap height={10} />
           <Input
-            type="password"
+            type={PasswordInputType}
             label="Password"
             placeholder="Password"
             value={password}
             onChange={ChangePassword}
           />
+          <span className="password-toggle-icon text-dark" style={{marginLeft: "500px"}}>{ToggleIcon}</span>
           <Gap height={30} />
           <Button title="Register" onClick={RegisterClick} />
           <Button

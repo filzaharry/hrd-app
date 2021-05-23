@@ -25,11 +25,11 @@ self.addEventListener('install', (event) => {
 // Listen for requests
 self.addEventListener('fetch', (event) => {
     if(!navigator.onLine){
-        if(event.request.url === 'https://aplus-hrd.netlify.app/static/js/main.chunk.js'){
+        if(event.request.url === 'http://localhost:3000/static/js/main.chunk.js'){
             event.waitUntil(
                 this.registration.showNotification("Mode Offline", {
                     body: "Anda memasuki mode tanpa Internet",
-                    icon: '/icon-192x192-offline.png',
+                    icon: 'icon192-100.jpg',
 
                 })
             )
@@ -41,11 +41,11 @@ self.addEventListener('fetch', (event) => {
             })
         );    
     } else {
-        if(event.request.url === 'https://aplus-hrd.netlify.app/static/js/main.chunk.js'){
+        if(event.request.url === 'http://localhost:3000/static/js/main.chunk.js'){
             event.waitUntil(
                 this.registration.showNotification("Aplus HRD", {
                     body: "Selamat Datang Kembali",
-                    icon: '/icon-192x192.png',
+                    icon: 'icon192-100.jpg',
 
                 })
             )

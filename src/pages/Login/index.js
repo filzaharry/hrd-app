@@ -6,7 +6,9 @@ import "./login.scss";
 import axios from "axios";
 import addNotification from "react-push-notification";
 import swal from "sweetalert";
-import { API } from "../../config/utils/constants";
+import { LOCAL } from "../../config/utils/constants";
+import { Toggle } from "../../components";
+import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
   const history = useHistory();
@@ -14,6 +16,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [error, setError] = useState("");
+  const [PasswordInputType, ToggleIcon] = Toggle();
 
   const ChangeUsername = (e) => {
     // console.log(e.target.value);
@@ -35,7 +38,7 @@ const Login = () => {
       password: password,
     };
     axios
-      .post(`${API}v1/login`, data)
+      .post(`${LOCAL}v1/login`, data)
       .then((result) => {
         if (result) {
           
@@ -54,7 +57,7 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        // console.log(e.response.data.message);
+        toast(error.response.data.message)
         setError(error.response.data.message);
       });
   };
@@ -69,8 +72,8 @@ const Login = () => {
           </div>
           <div className="col-sm col-lg-6 right">
         {error && (
-          <div className="alert alert-danger">
-            <p>{error}</p>
+          <div>
+            <ToastContainer/>
           </div>
         )}
             <h1 className="display-4">Login</h1>
@@ -78,19 +81,20 @@ const Login = () => {
             <Gap height={20} />
             <Input
               type="text"
-              label="Username"
-              placeholder="Username"
+              label="Username atau Email"
+              placeholder="Username/Email"
               value={username}
               onChange={ChangeUsername}
             />
             <Gap height={20} />
             <Input
-              type="password"
+              type={PasswordInputType}
               label="Password"
               placeholder="Password"
               value={password}
               onChange={ChangePassword}
             />
+            <span className="password-toggle-icon text-dark"style={{marginLeft: "420px"}}>{ToggleIcon}</span>
             <Gap height={10} />
             <p className="reset-password" onClick={()=> history.push('/forget-password')}>Lupa password ? Klik disini</p>
             <Gap height={20} />

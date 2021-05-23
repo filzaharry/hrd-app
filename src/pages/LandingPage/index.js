@@ -50,7 +50,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-
+      <Gap height={70} />
       {/* Card */}
       <section className="body-content" id="kemudahan">
         <div className="container">

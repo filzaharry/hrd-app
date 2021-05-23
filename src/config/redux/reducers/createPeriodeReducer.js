@@ -1,6 +1,6 @@
 const initialState = {
   form: {
-    periode: "",
+    periodeKe: '',
   },
 };
 

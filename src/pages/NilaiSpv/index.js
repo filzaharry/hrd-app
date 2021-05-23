@@ -68,7 +68,7 @@ const NilaiSpv = (props) => {
                 Nilai Total :{" "}
                 {spv &&
                   spv
-                    .map((nilaiSpv) => Math.trunc(nilaiSpv.hasilAkhir))
+                    .map((nilaiSpv) => Math.trunc(nilaiSpv.hasilAkhir/12*2))
                     .reduce((a, b) => a + b, 0)}
               </p>
             </div>

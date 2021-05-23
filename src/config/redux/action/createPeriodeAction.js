@@ -1,4 +1,5 @@
 import Axios from "axios";
+import swal from "sweetalert";
 import { API_URL } from "../../utils/constants";
 
 export const setPeriodeForm = (formType, formValue) => {
@@ -16,9 +17,11 @@ export const postToAPIPeriode = (form, id) => {
   Axios.post(`${API_URL}karyawan/${id}`, data)
     .then((res) => {
       console.log("Tambah Periode Sukses :", res);
+      swal("Mantap!", res.data.message, "success");
+      window.location.reload()
     })
     .catch((err) => {
-      console.log("err :", err);
+      swal(err.response.data.message);
     });
 };
 
@@ -31,6 +34,7 @@ export const updateToAPIPeriode = (form, id) => {
   Axios.put(`${API_URL}periode/${id}`, data)
     .then((res) => {
       console.log("Ubah Data Periode Karyawan Sukses :", res);
+      window.location.reload()
     })
     .catch((err) => {
       console.log("err :", err);

@@ -24,7 +24,7 @@ const DepartemenCard = () => {
   // harus _id tidak bisa id
   const confirmDelete = (_id) => {
     confirmAlert({
-      title: "Confirm to Delete",
+      title: "Hapus Departemen",
       message: "Apakah Anda yakin akan menghapus Data Departemen ini ?",
       buttons: [
         {

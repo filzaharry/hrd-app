@@ -17,7 +17,7 @@ const ModalCreate = (props) => {
   const submitPeriode = () => {
     setModal(!modal)
     postToAPIPeriode(form, id.id)
-    // window.location.reload()
+    
   }
 
   return (

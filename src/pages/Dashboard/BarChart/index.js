@@ -1,59 +1,62 @@
-import React from 'react'
-import { Bar } from 'react-chartjs-2';
+import React, { Component } from 'react'
+import { Bar } from 'react-chartjs-2'
 import { Gap } from '../../../components';
 
-const BarChart = () => {
-    return (
-        <div>
-            <Gap height={50} />
+export default class LineChart extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            data: {
+                labels: ["10","20","30","40","50"],
+                datasets: [
+                    {
+                        label: "Laki-laki",
+                        backgroundColo: "rgba(255, 0, 255, 0.75)",
+                        data: [12, 7, 8, 90, 3]
+                    },
+                    {
+                        label: "Perempuan",
+                        backgroundColor: "rgba(0, 255, 0, 0.75)",
+                        data: [6, 4, 21, 30, 41]
+                    }
+                ]
+            }
+        }
+    }
+
+    setGradientColor = (canvas, color) => {
+        const ctx = canvas.getContext('2d');
+        const gradient = ctx.createLinearGradient(0,0, 0, 400);
+        gradient.addColorStop(0, color)
+        gradient.addColorStop(0.95, "rgba(103, 255, 194, 0.15)");
+        return gradient
+    } 
+
+    getChartData = canvas => {
+        const data = this.state.data;
+        if(data.datasets){
+            let colors = ["rgba(255, 100, 155, 1)","rgba(0, 255, 175, 1)"];
+            data.datasets.forEach((set, i) => {
+                set.backgroundColor = this.setGradientColor(canvas, colors[i]);
+                set.borderColor = "white";
+                set.borderWidth = 2;
+
+            });
+        }
+        return data
+    }
+    render() {
+        return (
+            <div style={{position: "relative", width: 500, height: 550}}>
+            <Gap height={100} />
             <Bar 
-            data={{
-                labels:['Januari', 'Februari', 'Maret', 'April', 'Mei', "Juny"],
-                datasets: [{
-                    label: "# votes",
-                    data: [12, 19, 2, 17, 12, 22, 4],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                },
-                {
-                    label: 'Quantity',
-                    data: [47, 54, 37, 22, 12],
-                    backgroundColor: 'orange',
-                    borderColor: 'red'
-                }
-            ]
-            }}
-            height={300} width={400}
             options={{
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                beginAtZero: true,
-                            }
-                        }
-                    ]
-                }
+                responsive: true
             }}
+            data={this.getChartData}
             />
         </div>
-    )
+        )
+    }
 }
-
-export default BarChart

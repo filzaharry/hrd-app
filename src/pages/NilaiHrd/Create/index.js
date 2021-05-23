@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { Fragment, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import swal from "sweetalert";
 import { API_URL } from "../../../config/utils/constants";
 
 const ModalTambahNilaiHRD = (props) => {
@@ -9,42 +10,101 @@ const ModalTambahNilaiHRD = (props) => {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
-
-  const [masuk, setMasuk] = useState("");
-  const [izin, setIzin] = useState("");
-  const [setengahHari, setSetengahHari] = useState("");
-  const [sakit, setSakit] = useState("");
-  const [alpa, setAlpa] = useState("");
+  const [masuk, setMasuk] = useState(0);
+  const [izin, setIzin] = useState(0);
+  const [setengahHari, setSetengahHari] = useState(0);
+  const [sakit, setSakit] = useState(0);
+  const [alpa, setAlpa] = useState(0);
   const [error, setError] = useState('');
+ 
 
-  const changeMasuk = (e) => {
-    const value = e.target.value;
-    setMasuk(value);
-    setError("")
+  // Create handleIncrement event handler
+  const plusMasuk = () => {
+    setMasuk(prevCount => prevCount + 1);
+    if(masuk > 30){
+      alert("tidak ada 1 bulan lebih dari 31 hari")
+      setMasuk(prevCount => prevCount - 1);
+    }
   };
-  const changeIzin = (e) => {
-    const value = e.target.value;
-    setIzin(value);
-    setError("")
+
+  //Create handleDecrement event handler
+  const minusMasuk = () => {
+      if(masuk > 0){
+      setMasuk(prevCount => prevCount - 1);
+      }
   };
-  const changeSetengahHari = (e) => {
-    const value = e.target.value;
-    setSetengahHari(value);
-    setError("")
+
+// ======================================================================================
+
+  // Create handleIncrement event handler
+  const plusIzin = () => {
+    setIzin(prevCount => prevCount + 1);
+    if(izin > 3){
+      alert("izin sudah melebihi batas")
+    }
   };
-  const changeSakit = (e) => {
-    const value = e.target.value;
-    setSakit(value);
-    setError("")
+
+  //Create handleDecrement event handler
+  const minusIzin = () => {
+      if(izin > 0){
+      setIzin(prevCount => prevCount - 1);
+      }
   };
-  const changeAlpa = (e) => {
-    const value = e.target.value;
-    setAlpa(value);
-    setError("")
+
+  
+// ======================================================================================
+
+  // Create handleIncrement event handler
+  const plusSetengahHari = () => {
+    setSetengahHari(prevCount => prevCount + 1);
+    if(setengahHari > 3){
+      alert("izin setengah hari sudah melebihi batas")
+    }
   };
-  // useParams ini prosesnya lama kalo udah yakin ya ga usah diotak atik lagi 
-  // nanti id nya nongol sendiri
-  // atau pancing dulu di <Modal id={const.id} />
+
+  //Create handleDecrement event handler
+  const minusSetengahHari = () => {
+      if(setengahHari > 0){
+      setSetengahHari(prevCount => prevCount - 1);
+      }
+  };
+
+// ======================================================================================
+
+  // Create handleIncrement event handler
+  const plusSakit = () => {
+    setSakit(prevCount => prevCount + 1);
+    if(sakit > 3){
+      alert("Karyawan sakit cukup parah")
+    }
+  };
+
+  //Create handleDecrement event handler
+  const minusSakit = () => {
+      if(sakit > 0){
+      setSakit(prevCount => prevCount - 1);
+      }
+  };
+
+// ======================================================================================
+
+  // Create handleIncrement event handler
+  const plusAlpa = () => {
+    setAlpa(prevCount => prevCount + 1);
+    if(alpa > 3){
+      alert("Lebih dari 3 hari tanpa keterangan, maka SP 1")
+      setAlpa(prevCount => prevCount - 1);
+    }
+  };
+
+  //Create handleDecrement event handler
+  const minusAlpa = () => {
+      if(alpa > 0){
+      setAlpa(prevCount => prevCount - 1);
+      }
+  };
+
+
   const id = useParams()
   const submitNilaiHRD = () => {
     setModal(!modal);
@@ -66,11 +126,8 @@ const ModalTambahNilaiHRD = (props) => {
           setSetengahHari("")
           setSakit("")
           setAlpa("")
-          window.location.reload(false);
-          // setAlert(result.data.message);
-          // setTimeout(() => {
-          //   setAlert("");
-          // }, 3000);
+          swal("Mantap!", result.data.message, "success");
+          window.location.reload()
         }
       }
     })
@@ -94,58 +151,64 @@ const ModalTambahNilaiHRD = (props) => {
         <ModalBody>
           <div className="form-group">
             {/* validasi maksimal number 10 */}
-            <label for="masuk">Masuk Kerja</label>
-            <input
-              type="number"
-              class="form-control"
-              id="masuk"
-              value={masuk}
-              onChange={changeMasuk}
-            />
+          <label for="masuk">Jumlah Hari Kerja Bulan {props.bulan}</label>
+            <div classname="form-row">
+              <div className="counter form-group">
+                  <button onClick={minusMasuk} className="minus btn btn-danger mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">-</span></button>
+                  <input style={{height: "35px", margin: "2px", border: "1 solid grey", textAlign:"center"}} type="text" value={masuk} />
+                  <button onClick={plusMasuk} className="plus btn btn-success mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">+</span></button>
+              </div>
+            </div>
           </div>
+
+
           <div className="form-group">
             {/* validasi maksimal number 10 */}
             <label for="izin">Izin Kerja</label>
-            <input
-              type="number"
-              class="form-control"
-              id="izin"
-              value={izin}
-              onChange={changeIzin}
-            />
+            <div classname="form-row">
+              <div className="counter form-group">
+                  <button onClick={minusIzin} className="minus btn btn-danger mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">-</span></button>
+                  <input style={{height: "35px", margin: "2px", border: "1 solid grey", textAlign:"center"}} type="text" value={izin} />
+                  <button onClick={plusIzin} className="plus btn btn-success mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">+</span></button>
+              </div>
+            </div>
           </div>
+
+
           <div className="form-group">
             {/* validasi maksimal number 10 */}
             <label for="setengahHari">Setengah Hari Kerja</label>
-            <input
-              type="number"
-              class="form-control"
-              id="setengahHari"
-              value={setengahHari}
-              onChange={changeSetengahHari}
-            />
+            <div classname="form-row">
+              <div className="counter form-group">
+                  <button onClick={minusSetengahHari} className="minus btn btn-danger mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">-</span></button>
+                  <input style={{height: "35px", margin: "2px", border: "1 solid grey", textAlign:"center"}} type="text" value={setengahHari} />
+                  <button onClick={plusSetengahHari} className="plus btn btn-success mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">+</span></button>
+              </div>
+            </div>
           </div>
+
+
           <div className="form-group">
             {/* validasi maksimal number 10 */}
             <label for="sakit">Sakit</label>
-            <input
-              type="number"
-              class="form-control"
-              id="sakit"
-              value={sakit}
-              onChange={changeSakit}
-            />
+            <div classname="form-row">
+              <div className="counter form-group">
+                  <button onClick={minusSakit} className="minus btn btn-danger mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">-</span></button>
+                  <input style={{height: "35px", margin: "2px", border: "1 solid grey", textAlign:"center"}} type="text" value={sakit} />
+                  <button onClick={plusSakit} className="plus btn btn-success mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">+</span></button>
+              </div>
+            </div>
           </div>
           <div className="form-group">
             {/* validasi maksimal number 10 */}
             <label for="alpa">Tanpa Keterangan</label>
-            <input
-              type="number"
-              class="form-control"
-              id="alpa"
-              value={alpa}
-              onChange={changeAlpa}
-            />
+            <div classname="form-row">
+              <div className="counter form-group">
+                  <button onClick={minusAlpa} className="minus btn btn-danger mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">-</span></button>
+                  <input style={{height: "35px", margin: "2px", border: "1 solid grey", textAlign:"center"}} type="text" value={alpa} />
+                  <button onClick={plusAlpa} className="plus btn btn-success mx-auto" style={{width: "40px", marginTop: "-5px"}}><span className="font-weight-bold">+</span></button>
+              </div>
+            </div>
           </div>
         </ModalBody>
         <ModalFooter>

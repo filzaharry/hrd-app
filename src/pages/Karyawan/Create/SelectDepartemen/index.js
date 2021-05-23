@@ -13,7 +13,7 @@ const Departemen = () => {
   return (
     <Fragment>
     {dataDepartemen.map((departemen) => (
-        <option value={departemen._id}>
+        <option value={departemen._id} key={departemen._id}>
           {departemen.nama_dep}
         </option>
       ))}

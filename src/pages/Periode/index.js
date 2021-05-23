@@ -25,8 +25,8 @@ const Periode = (props) => {
   const submitHapus = (_id) => {
     // console.log(_id);
     confirmAlert({
-      title: "Confirm to Delete",
-      message: "Apakah Anda yakin akan menghapus Data Jabatan ini ?",
+      title: "Hapus Periode",
+      message: "Apakah Anda yakin akan menghapus Data Periode ini ?",
       buttons: [
         {
           label: "Yes",
@@ -34,7 +34,7 @@ const Periode = (props) => {
             // console.log(_id);
             Axios.delete(`${API_URL}periode/${_id}`)
               .then((res) => {
-                console.log("berhasil menghapus Jabatan", res.data);
+                console.log("berhasil menghapus Periode", res.data);
                 window.location.reload();
               })
               .catch((err) => {
@@ -86,6 +86,7 @@ const Periode = (props) => {
 
             {/* <CustomTable /> */}
             <div className="table-responsive">
+            <p className="alert alert-warning">Maksimal Periode adalah 20 kali Periode Kontrak</p>
               <table className="table table-hover">
                 <thead className="thead-light">
                   <tr>

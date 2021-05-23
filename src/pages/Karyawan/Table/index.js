@@ -1,12 +1,12 @@
 import {
   faEdit,
   faInfo,
-  faRedoAlt,
+  faSearch,
   faTrash,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Gap } from "../../../components";
 import moment from "moment";
@@ -21,15 +21,26 @@ import './table.scss'
 const TableKaryawan = () => {
   const history = useHistory();
   const { dataKaryawan } = useSelector((state) => state.karyawanReducer);
+  const [filterKaryawan, setFilterKaryawan] = useState([]);
+  const [search, setSearch] = useState("")
   const dispatch = useDispatch();
+  const [mode, setMode] = useState('online');
 
   useEffect(() => {
     dispatch(setDataKaryawan());
   }, [dispatch]);
 
+  useEffect(() => {
+    setFilterKaryawan(
+      dataKaryawan.filter((karyawan) =>
+        karyawan.name.toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  }, [search, dataKaryawan, setMode]);
+
   const confirmDelete = (_id) => {
     confirmAlert({
-      title: "Confirm to Delete",
+      title: "Hapus Karyawan",
       message:
         "Menghapus Data Karyawan akan menghapus seluruh riwayat nilai Karyawan, Hati-hati!",
       buttons: [
@@ -58,27 +69,36 @@ const TableKaryawan = () => {
 
   return (
     <div className="container">
+      <div>
+        {
+          mode==='offline' ?
+          <div className="alert alert-warning">Anda berada dalam mode offline</div>
+          : null
+        }
+      </div>
       <h1>Data Karyawan</h1>
       <h5 className="text-muted">
         Untuk melihat profile masing-masing karyawan klik action{" "}
         <span className="text-info">Detail</span>
       </h5>
+    
       <Gap height={20} />
-      <button
-        color="dark"
-        className="btn btn-primary mr-2"
-        onClick={() => history.push("/karyawan/tambah-karyawan")}
-      >
-        <FontAwesomeIcon icon={faUserPlus} /> Tambah Karyawan
-      </button>
-      <button
-        className="btn btn-outline-info"
-        onClick={() => window.location.reload()}
-      >
-        <FontAwesomeIcon icon={faRedoAlt} />
-      </button>
-      <h4 className="float-right">Total Karyawan : {dataKaryawan.length}</h4>
+
+      <div className="col-lg-12">
+        <div className="row ">
+        <p className="btn btn-primary mr-2" onClick={() => history.push("/karyawan/tambah-karyawan")}>
+          <FontAwesomeIcon icon={faUserPlus} /> Tambah Karyawan
+        </p>
+        
+        {/* <!-- Actual search box --> */}
+        <div className="form-group has-search col-lg-4 ml-4 pl-4">
+          <span className="form-control-feedback text-dark" style={{position: "absolute", marginTop: "10px",marginLeft: "270px"}}><FontAwesomeIcon icon={faSearch}/></span>
+          <input onChange={(e) => setSearch(e.target.value)} type="text" className="form-control" placeholder="Cari Karyawan" />
+        </div>
+      </div>
       <Gap height={20} />
+      </div>
+      <h4>Total Karyawan : {dataKaryawan.length}</h4>
       <div class=" table-hover shadow bg-white table-responsive">
         <table class="table rounded-top">
           <thead className="thead">
@@ -93,7 +113,7 @@ const TableKaryawan = () => {
             </tr>
           </thead>
           <tbody>
-            {dataKaryawan.map((karyawan) => (
+            {filterKaryawan.map((karyawan) => (
               <tr key={karyawan._id}>
                 <td></td>
                 <td><img className="gambar-karyawan" src={`${API}${karyawan.image}`} alt= {karyawan.image} /></td>

@@ -23,7 +23,7 @@ const JabatanTable = () => {
   // harus _id tidak bisa id
   const confirmDelete = (_id) => {
     confirmAlert({
-      title: "Confirm to Delete",
+      title: "Hapus Jabatan",
       message: "Apakah Anda yakin akan menghapus Data Jabatan ini ?",
       buttons: [
         {

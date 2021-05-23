@@ -1,4 +1,5 @@
 import Axios from "axios";
+import swal from "sweetalert";
 import { API_URL } from "../../utils/constants";
 
 export const setForm = (formType, formValue) => {
@@ -11,7 +12,6 @@ export const setImgPreview = (payload) => {
 
 
 //  CREATE AND UPDATE ACTION 
-
 export const postToAPI = (form) => {
     const data = new FormData();
     data.append('image', form.image);
@@ -30,19 +30,23 @@ export const postToAPI = (form) => {
 
   Axios.post(`${API_URL}karyawan`, data, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "content-type": "multipart/form-data",
     }
   })
-    .then((res) => {
-      console.log("tambah karyawan sukses :", res);
+    .then(res => {
+      
+      // console.log("tambah karyawan sukses :", res);
+      swal("Mantap!", res.data.message, "success");
+      window.location.reload()
     })
-    .catch((err) => {
-      console.log("err :", err);
+    .catch(err => {
+      swal(err.response.data.message);
     });
 };
 
 
 export const updateToAPI = (form, id) => {
+  
   const data = new FormData();
   data.append('image', form.image);
   data.append('name', form.name);
@@ -57,16 +61,16 @@ export const updateToAPI = (form, id) => {
   data.append('tglMulai', form.tglMulai);
   data.append('porto', form.porto);
   data.append('alamat', form.alamat);
-
 Axios.put(`${API_URL}karyawan/${id}`, data, {
   headers: {
     "Content-Type": "multipart/form-data",
   }
 })
+
   .then((res) => {
-    console.log("Ubah data karyawan sukses :", res);
+    swal("Mantap!", res.data.message, "success");
   })
   .catch((err) => {
-    console.log("err :", err);
+    swal(err.response.data.message);
   });
 }

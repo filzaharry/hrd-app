@@ -83,31 +83,27 @@ const NilaiHrd = (props) => {
           <div className="row">
             <div className="col ">
               <p className="btn btn-success">
-                Nilai Total :{" "}
+                Nilai Rata-rata :{" "}
                 {hrd &&
                   hrd
-                    .map((nilaiHrd) => nilaiHrd.hasilAkhir)
+                    .map((nilaiHrd) => Math.trunc(nilaiHrd.hasilAkhir/12))
                     .reduce((a, b) => a + b, 0)}
-              </p>
-              <p
-                className="btn btn-outline-info ml-2"
-                onClick={() => window.location.reload()}
-              >
-                <FontAwesomeIcon icon={faRedoAlt} />
               </p>
             </div>
             <div className="col text-right ">
               <div className="btn btn-primary">
-                <ModalTambahNilaiHRD buttonLabel="Tambah Nilai" />
+                <ModalTambahNilaiHRD buttonLabel="Tambah Nilai" bulan={moment(data.tglMulai).format("MMMM")} />
               </div>
             </div>
-            <div className="table-hover table-responsive">
-            <table class="table">
-            <thead>
+            <div className="container table-responsive ">
+              <p className="alert alert-warning">Maksimal Input Nilai Pada Periode ini adalah 12 kali</p>
+            <table className="table shadow">
+            <thead className="table-dark">
               <tr>
+                <th></th>
                 <th scope="col">Tanggal Input</th>
                 <th scope="col">Tanggal Diubah</th>
-                <th scope="col">Masuk</th>
+                <th scope="col">Hari Kerja</th>
                 <th scope="col">Setengah hari</th>
                 <th scope="col">Izin</th>
                 <th scope="col">Sakit</th>
@@ -120,6 +116,7 @@ const NilaiHrd = (props) => {
               {hrd &&
                 hrd.map((nilaiHrd) => (
                   <tr>
+                    <td></td>
                     <td>{moment(nilaiHrd.createdAt).format("LL")}</td>
                     <td>{moment(nilaiHrd.updatedAt).format("LL")}</td>
                     <td>{nilaiHrd.masuk}</td>
@@ -127,7 +124,7 @@ const NilaiHrd = (props) => {
                     <td>{nilaiHrd.izin}</td>
                     <td>{nilaiHrd.sakit}</td>
                     <td className="text-danger">{nilaiHrd.alpa}</td>
-                    <td>{nilaiHrd.hasilAkhir}</td>
+                    <td>{Math.trunc(nilaiHrd.hasilAkhir)}</td>
                     <td>
                       {/* <p className="btn btn-info" onClick={() => history.push(`nilaihrd/${nilaiHrd._id}`)}
                       >

@@ -12,6 +12,7 @@ import {
   setImgPreview,
 } from "../../../config/redux/action";
 
+
 const CreateKaryawan = () => {
   const { form, imgPreview } = useSelector(
     (state) => state.createKaryawanReducer
@@ -35,9 +36,9 @@ const CreateKaryawan = () => {
   // const [error, setError] = useState("");
 
   const onSubmit = () => {
-    postToAPI(form);
+    postToAPI(form)
+    
     // window.location.reload() ini malah balik lagi ke form create
-    history.push("/karyawan");
   };
 
   const onImageUpload = (e) => {
@@ -56,11 +57,6 @@ const CreateKaryawan = () => {
       <p className="text-muted">
         Semua data Wajib diisi sebelum menekan tombol Simpan Data Karyawan
       </p>
-      {/* {error && (
-        <div className="alert alert-danger">
-        <p>{error}</p>
-        </div>
-      )} */}
 
       <Gap height={20} />
       {/* Upload */}

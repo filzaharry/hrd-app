@@ -12,7 +12,7 @@ import "./detailperiode.scss";
 
 const DetailPeriode = (props) => {
   const history = useHistory();
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   useEffect(() => {
     const id = props.match.params.id;
     // console.log(id);
@@ -27,15 +27,20 @@ const DetailPeriode = (props) => {
   // console.log(data);
 
   const hrd = data.nilaiHrdId;
-  // console.log("nilai hrd woy", hrd);
-  const spv = data.nilaiSpvId;
-  // console.log("nilai hrd woy", spv);
+  // const panjangHrd = hrd && hrd.map((nilaiHrd) => (nilaiHrd));
+  // const lengthHrd = panjangHrd[panjangHrd].length
+  // console.log("nilai hrd woy", lengthHrd);
 
+
+  const spv = data.nilaiSpvId;
+  // console.log("nilai spv woy", spv);
+  const jumlahNilai = 12
   const totalhrd =
-    hrd && hrd.map((nilaiHrd) => nilaiHrd.hasilAkhir).reduce((a, b) => a + b, 0);
+    hrd && hrd.map((nilaiHrd) => Math.trunc(nilaiHrd.hasilAkhir/jumlahNilai))
+      .reduce((a, b) => a + b, 0);
 
   const totalspv =
-    spv && spv.map((nilaiSpv) => Math.trunc(nilaiSpv.hasilAkhir))
+    spv && spv.map((nilaiSpv) => Math.trunc(nilaiSpv.hasilAkhir/jumlahNilai*2))
       .reduce((a, b) => a + b, 0);
 
   const total = (totalhrd + totalspv) / 2;
@@ -53,7 +58,8 @@ const DetailPeriode = (props) => {
 
 
       <h3>Detail Periode Ke {data.periodeKe}</h3>
-      <h5 className="text-secondary">Menampilkan secara detail data Periode</h5>
+      <p className="text-secondary">Menampilkan secara detail data Periode</p>
+      <p className="text-info mb-4">Untuk dapat perpanjang kontrak, Total Nilai harus di atas 50</p>
 
 
         <div className="col-lg-12">
@@ -81,11 +87,7 @@ const DetailPeriode = (props) => {
 
               <p style={{ cursor: "pointer", padding: "2px 5px", marginTop: "-5px"}} className="btn btn-secondary"
                 onClick={() => history.push(`${data._id}/nilaihrd`)}
-              >
-                {hrd &&
-                  hrd
-                    .map((nilaiHrd) => nilaiHrd.hasilAkhir)
-                    .reduce((a, b) => a + b, 0)} 
+              >{totalhrd}
               </p>
               <br />
               <p
@@ -97,10 +99,7 @@ const DetailPeriode = (props) => {
                 className="btn btn-secondary"
                 onClick={() => history.push(`${data._id}/nilaispv`)}
               >
-                {spv &&
-                  spv
-                    .map((nilaiSpv) => Math.trunc(nilaiSpv.hasilAkhir))
-                    .reduce((a, b) => a + b, 0)} 
+                {totalspv}
               </p>
               <br />
               <p
@@ -116,11 +115,16 @@ const DetailPeriode = (props) => {
             <ModalEditPeriode />
             </div>
             <div className="col-lg-4">
-              { total <= 30 ? (
-                <img className="detail-bg" src={Diperpanjang} alt="detail-bg" />
-              ) : (
-                <img className="detail-bg" src={TidakDiperpanjang} alt="detail-bg" />
-              )}
+               { totalspv > 20 && totalhrd > 20 ? (
+                     total >= 50 ? (
+                      <img className="detail-bg" src={Diperpanjang} alt="detail-bg" />
+                    ) : (
+                      <img className="detail-bg" src={TidakDiperpanjang} alt="detail-bg" />
+                    )
+              ):(
+                  <p>Nilai Masih Sedang Diproses</p>
+              )} 
+             
               </div>
           </div>
           <Gap height={20} />

@@ -41,7 +41,7 @@ const UserSettings = () => {
   
   const departemen = dataUser.departemenId;
   const jabatan = dataUser.jabatanId;
-console.log(dataUser)
+  console.log(dataUser)
   if (departemen || jabatan) {
   return (
     <div className="container">
